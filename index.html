@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Dice Revolver: Neon Noir</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              mono: ['"Courier New"', 'monospace'],
+              sans: ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+            },
+            backgroundImage: {
+              'carbon': "radial-gradient(black 15%, transparent 16%), radial-gradient(black 15%, transparent 16%)",
+              'metal': "linear-gradient(145deg, #1a1a1a, #0a0a0a)",
+            },
+            animation: {
+              'spin-blur': 'spinBlur 0.4s linear infinite',
+              'pulse-fast': 'pulse 0.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'shake': 'shake 0.2s cubic-bezier(.36,.07,.19,.97) both',
+              'shake-hard': 'shakeHard 0.3s cubic-bezier(.36,.07,.19,.97) both',
+              'recoil-fire': 'recoilFire 0.2s ease-out forwards',
+              'glitch-anim': 'glitchskew 1s infinite linear alternate-reverse',
+              'float': 'float 4s ease-in-out infinite',
+              'pop-impact': 'popImpact 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
+              'burn-crit': 'burnCrit 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) forwards',
+              'flash': 'screenFlash 0.1s ease-out forwards',
+              'marquee': 'marquee 15s linear infinite',
+            },
+            keyframes: {
+              marquee: {
+                '0%': { transform: 'translateX(100%)' },
+                '100%': { transform: 'translateX(-100%)' }
+              },
+              recoilFire: {
+                '0%': { transform: 'translateY(0) scale(1)', filter: 'brightness(1)' },
+                '10%': { transform: 'translateY(15px) scale(1.1)', filter: 'brightness(2)' },
+                '100%': { transform: 'translateY(0) scale(1)', filter: 'brightness(1)' }
+              },
+              popImpact: {
+                '0%': { transform: 'translate(-50%, -50%) scale(0.5) rotate(-10deg)', opacity: '0' },
+                '40%': { transform: 'translate(-50%, -120%) scale(1.5) rotate(5deg)', opacity: '1' },
+                '60%': { transform: 'translate(-50%, -100%) scale(1.2) rotate(-2deg)' },
+                '100%': { transform: 'translate(-50%, -150%) scale(1) rotate(0deg)', opacity: '0' }
+              },
+              burnCrit: {
+                '0%': { transform: 'translate(-50%, -50%) scale(0.5) rotate(-15deg)', opacity: '0', filter: 'brightness(1)' },
+                '20%': { transform: 'translate(-50%, -120%) scale(2.5) rotate(5deg)', opacity: '1', filter: 'brightness(3)' },
+                '50%': { transform: 'translate(-50%, -120%) scale(2.2) rotate(-5deg)', opacity: '1', filter: 'brightness(1.5)' },
+                '100%': { transform: 'translate(-50%, -200%) scale(1.5) rotate(0deg)', opacity: '0', filter: 'brightness(1)' }
+              },
+              screenFlash: {
+                '0%': { backgroundColor: 'rgba(255,255,255,0.2)' },
+                '100%': { backgroundColor: 'transparent' }
+              },
+              spinBlur: {
+                '0%': { transform: 'rotate(0deg) scale(1)', filter: 'blur(2px)' },
+                '50%': { transform: 'rotate(180deg) scale(0.9)', filter: 'blur(4px)' },
+                '100%': { transform: 'rotate(360deg) scale(1)', filter: 'blur(2px)' },
+              },
+              shake: {
+                '0%, 100%': { transform: 'translate(0, 0)' },
+                '25%': { transform: 'translate(4px, 4px)' },
+                '50%': { transform: 'translate(-4px, -4px)' },
+                '75%': { transform: 'translate(4px, -4px)' }
+              },
+              shakeHard: {
+                '0%, 100%': { transform: 'translate(0, 0) rotate(0deg)' },
+                '20%': { transform: 'translate(-10px, 5px) rotate(-5deg)' },
+                '40%': { transform: 'translate(10px, -5px) rotate(5deg)' },
+                '60%': { transform: 'translate(-10px, -5px) rotate(-5deg)' },
+                '80%': { transform: 'translate(10px, 5px) rotate(5deg)' }
+              },
+              glitchskew: {
+                '0%': { transform: 'skew(0deg)' },
+                '20%': { transform: 'skew(-10deg)' },
+                '40%': { transform: 'skew(10deg)' },
+                '60%': { transform: 'skew(-5deg)' },
+                '80%': { transform: 'skew(5deg)' },
+                '100%': { transform: 'skew(0deg)' },
+              },
+              float: {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-15px)' }
+              },
+              glitchClip: {
+                '0%': { clipPath: 'inset(10% 0 80% 0)' },
+                '20%': { clipPath: 'inset(80% 0 1% 0)' },
+                '40%': { clipPath: 'inset(40% 0 40% 0)' },
+                '60%': { clipPath: 'inset(10% 0 60% 0)' },
+                '80%': { clipPath: 'inset(80% 0 5% 0)' },
+                '100%': { clipPath: 'inset(30% 0 20% 0)' }
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+        body {
+            background-color: #020202;
+            color: #e2e8f0;
+            overflow-x: hidden;
+            overscroll-behavior: none;
+        }
+        
+        /* SVG Filters setup */
+        .filter-glitch {
+            filter: url(#displacementFilter);
+        }
+
+        /* Noise Texture */
+        .bg-noise {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+        }
+
+        /* 3D Die Face */
+        .die-face {
+            box-shadow: 
+                inset 2px 2px 5px rgba(0,0,0,0.8),
+                inset -1px -1px 2px rgba(255,255,255,0.1);
+        }
+        
+        .glitch-text {
+           position: relative;
+        }
+        
+        .glitch-text::before,
+        .glitch-text::after {
+           content: attr(data-text);
+           position: absolute;
+           top: 0;
+           left: 0;
+           width: 100%;
+           height: 100%;
+        }
+        
+        .glitch-text::before {
+           left: 2px;
+           text-shadow: -1px 0 #ff00c1;
+           clip: rect(44px, 450px, 56px, 0);
+           animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+        
+        .glitch-text::after {
+           left: -2px;
+           text-shadow: -1px 0 #00fff9;
+           clip: rect(44px, 450px, 56px, 0);
+           animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+    </style>
+    <script type="importmap">
+    {
+      "imports": {
+        "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0",
+        "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+        "react/": "https://aistudiocdn.com/react@^19.2.0/",
+        "react": "https://aistudiocdn.com/react@^19.2.0"
+      }
+    }
+    </script>
+</head>
+  <body>
+    <div id="root" class="h-full"></div>
+    <svg style="display: none;">
+        <defs>
+            <filter id="displacementFilter">
+                <feTurbulence type="turbulence" baseFrequency="0.05" numOctaves="2" result="turbulence" />
+                <feDisplacementMap in2="turbulence" in="SourceGraphic" scale="5" xChannelSelector="R" yChannelSelector="G" />
+            </filter>
+        </defs>
+    </svg>
+  </body>
+</html>
