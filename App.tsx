@@ -1,3 +1,4 @@
+
 import React, { useState, useCallback, useEffect } from 'react';
 import { RefreshCw, Cpu, Eye, Zap, Shield, Heart, Swords, Crosshair, Database, TrendingUp, AlertTriangle, Anchor, BatteryCharging, Skull, Activity, Biohazard, Star, Flame, Crown } from 'lucide-react';
 import { DieData, DieValue, GameState, WeaponDef, CombatResult, DamagePopup, ShopItem, Difficulty, WeaponType, CyberwareDef, BossModifier, Particle, EnemyIntent, EnemyActionType, RewardOption, TacticalMission, WeaponTriggerType, RewardRarity } from './types';
@@ -1153,52 +1154,56 @@ export default function App() {
 
       {/* Victory Modal */}
       {victoryModalOpen && (
-          <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/90 backdrop-blur animate-in fade-in">
-              <div className="bg-slate-900 border-2 border-yellow-500 p-8 rounded-xl text-center flex flex-col items-center max-w-lg mx-4 shadow-[0_0_50px_#eab308]">
-                   <Crown className="w-20 h-20 text-yellow-400 mb-6 animate-pulse" />
-                   <h2 className="text-5xl font-black italic text-transparent bg-clip-text bg-gradient-to-b from-yellow-200 to-yellow-600 mb-4">MISSION ACCOMPLISHED</h2>
-                   <p className="text-slate-300 font-mono mb-8 text-lg">最终威胁已清除。系统核心安全。</p>
-                   
-                   <div className="flex gap-4">
-                        <button 
-                            onClick={handleReturnToMenu} 
-                            className="px-8 py-3 bg-slate-700 hover:bg-slate-600 text-white font-bold rounded border border-slate-500"
-                        >
-                            返回主菜单
-                        </button>
-                   </div>
+          <div className="fixed inset-0 z-[80] overflow-y-auto custom-scrollbar bg-black/90 backdrop-blur animate-in fade-in">
+              <div className="min-h-full w-full flex items-center justify-center p-4">
+                <div className="bg-slate-900 border-2 border-yellow-500 p-8 rounded-xl text-center flex flex-col items-center max-w-lg mx-4 shadow-[0_0_50px_#eab308]">
+                    <Crown className="w-20 h-20 text-yellow-400 mb-6 animate-pulse" />
+                    <h2 className="text-5xl font-black italic text-transparent bg-clip-text bg-gradient-to-b from-yellow-200 to-yellow-600 mb-4">MISSION ACCOMPLISHED</h2>
+                    <p className="text-slate-300 font-mono mb-8 text-lg">最终威胁已清除。系统核心安全。</p>
+                    
+                    <div className="flex gap-4">
+                            <button 
+                                onClick={handleReturnToMenu} 
+                                className="px-8 py-3 bg-slate-700 hover:bg-slate-600 text-white font-bold rounded border border-slate-500"
+                            >
+                                返回主菜单
+                            </button>
+                    </div>
+                </div>
               </div>
           </div>
       )}
 
       {/* Evolution Selection Modal */}
       {evolutionOptions && (
-          <div className="fixed inset-0 z-[75] flex items-center justify-center bg-black/90 backdrop-blur animate-in fade-in p-4 overflow-y-auto">
-              <div className="w-full max-w-4xl flex flex-col items-center my-auto">
-                   <Zap className="w-16 h-16 text-cyan-400 mb-4 animate-pulse" />
-                   <h2 className="text-3xl md:text-4xl font-black italic text-white mb-2 text-center">武器核心过载</h2>
-                   <p className="text-cyan-400 font-mono mb-8 text-center tracking-widest">检测到可进化组件，请选择升级路线</p>
-                   
-                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
-                       {evolutionOptions.options.map(opt => (
-                           <button 
-                                key={opt.id}
-                                onClick={() => handleEvolutionSelect(opt)}
-                                className="relative bg-slate-800 border-2 border-slate-600 hover:border-cyan-400 hover:bg-slate-700 hover:-translate-y-2 transition-all duration-300 p-6 rounded-xl group flex flex-col items-center text-center"
-                           >
-                               <div className="w-20 h-20 mb-4 text-cyan-400 opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-transform">
-                                   {/* Placeholder Icon, assumes WeaponCard logic handles mapping based on ID */}
-                                   <Crosshair className="w-full h-full" />
-                               </div>
-                               <h3 className="text-xl font-black text-white mb-2">{opt.name}</h3>
-                               <div className="text-xs font-mono text-cyan-500 mb-4 bg-black/40 px-2 py-1 rounded">{opt.req}</div>
-                               <p className="text-sm text-slate-400 leading-relaxed">{opt.description}</p>
-                               <div className="mt-auto pt-6">
-                                   <span className="inline-block px-4 py-2 bg-cyan-900 text-cyan-200 rounded font-bold text-sm group-hover:bg-cyan-500 group-hover:text-black transition-colors">选择</span>
-                               </div>
-                           </button>
-                       ))}
-                   </div>
+          <div className="fixed inset-0 z-[75] overflow-y-auto custom-scrollbar bg-black/90 backdrop-blur animate-in fade-in">
+              <div className="min-h-full w-full flex items-center justify-center p-4">
+                <div className="w-full max-w-4xl flex flex-col items-center my-auto">
+                    <Zap className="w-16 h-16 text-cyan-400 mb-4 animate-pulse" />
+                    <h2 className="text-3xl md:text-4xl font-black italic text-white mb-2 text-center">武器核心过载</h2>
+                    <p className="text-cyan-400 font-mono mb-8 text-center tracking-widest">检测到可进化组件，请选择升级路线</p>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
+                        {evolutionOptions.options.map(opt => (
+                            <button 
+                                    key={opt.id}
+                                    onClick={() => handleEvolutionSelect(opt)}
+                                    className="relative bg-slate-800 border-2 border-slate-600 hover:border-cyan-400 hover:bg-slate-700 hover:-translate-y-2 transition-all duration-300 p-6 rounded-xl group flex flex-col items-center text-center"
+                            >
+                                <div className="w-20 h-20 mb-4 text-cyan-400 opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-transform">
+                                    {/* Placeholder Icon, assumes WeaponCard logic handles mapping based on ID */}
+                                    <Crosshair className="w-full h-full" />
+                                </div>
+                                <h3 className="text-xl font-black text-white mb-2">{opt.name}</h3>
+                                <div className="text-xs font-mono text-cyan-500 mb-4 bg-black/40 px-2 py-1 rounded">{opt.req}</div>
+                                <p className="text-sm text-slate-400 leading-relaxed">{opt.description}</p>
+                                <div className="mt-auto pt-6">
+                                    <span className="inline-block px-4 py-2 bg-cyan-900 text-cyan-200 rounded font-bold text-sm group-hover:bg-cyan-500 group-hover:text-black transition-colors">选择</span>
+                                </div>
+                            </button>
+                        ))}
+                    </div>
+                </div>
               </div>
           </div>
       )}
