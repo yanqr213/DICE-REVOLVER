@@ -1,55 +1,22 @@
 {
   "name": "dice-revolver",
   "private": true,
-  "version": "0.1.0",
-  "main": "dist-electron/main.js",
-  "description": "赛博朋克风格的骰子战斗肉鸽游戏。",
-  "author": "Your Name",
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build && electron-builder",
-    "preview": "vite preview",
-    "electron:dev": "concurrently -k \"cross-env BROWSER=none npm run dev\" \"wait-on tcp:5173 && electron .\""
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
-    "lucide-react": "^0.263.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "lucide-react": "^0.554.0",
+    "react-dom": "^19.2.0",
+    "react": "^19.2.0"
   },
   "devDependencies": {
-    "@types/react": "^18.2.15",
-    "@types/react-dom": "^18.2.7",
-    "@vitejs/plugin-react": "^4.0.3",
-    "autoprefixer": "^10.4.14",
-    "concurrently": "^8.2.0",
-    "cross-env": "^7.0.3",
-    "electron": "^25.3.0",
-    "electron-builder": "^24.6.3",
-    "postcss": "^8.4.27",
-    "tailwindcss": "^3.3.3",
-    "typescript": "^5.0.2",
-    "vite": "^4.4.5",
-    "wait-on": "^7.0.1"
-  },
-  "build": {
-    "appId": "com.dicerevolver.game",
-    "productName": "Dice Revolver",
-    "directories": {
-      "output": "release"
-    },
-    "files": [
-      "dist/**/*",
-      "dist-electron/**/*"
-    ],
-    "win": {
-      "target": "nsis",
-      "icon": "public/icon.ico"
-    },
-    "mac": {
-      "target": "dmg"
-    },
-    "linux": {
-      "target": "AppImage"
-    }
+    "@types/node": "^22.14.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.0"
   }
 }
